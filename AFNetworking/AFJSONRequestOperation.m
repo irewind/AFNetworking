@@ -59,9 +59,17 @@ static dispatch_queue_t json_request_operation_processing_queue() {
         }
     }];
 
+    [requestOperation setAuthenticationAgainstProtectionSpaceBlock:^BOOL(NSURLConnection *connection, NSURLProtectionSpace *protectionSpace) {
+        return YES;
+    }];
+    [requestOperation setAuthenticationChallengeBlock:^(NSURLConnection *connection, NSURLAuthenticationChallenge *challenge) {
+        if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
+            [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
+        }
+    }];
+
     return requestOperation;
 }
-
 
 - (id)responseJSON {
     [self.lock lock];
