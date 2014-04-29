@@ -50,6 +50,8 @@
  */
 @property (readonly, nonatomic, strong) id responseObject;
 
+@property (nonatomic, strong) id initialRequestParameters;
+
 ///-----------------------------------------------------------
 /// @name Setting Completion Block Success / Failure Callbacks
 ///-----------------------------------------------------------
